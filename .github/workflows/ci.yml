@@ -87,6 +87,7 @@ jobs:
       - name: OWASP Dependency Check
         run: mvn org.owasp:dependency-check-maven:check --file my-app/pom.xml
 
+      - uses: snyk/actions/setup@master
       - name: Snyk Maven
         uses: snyk/actions/maven@v2
         with:
