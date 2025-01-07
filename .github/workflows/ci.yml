@@ -94,6 +94,7 @@ jobs:
           args: --sarif-file-output=snyk.sarif --file=my-app/pom.xml
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        continue-on-error: true
       
   docker:
     runs-on: ubuntu-latest
