@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ "master", "pipeline_nextgen" ]
+    branches: [ "master", "pipeline_nextgen", "main" ]
   pull_request:
     branches: [ "master" ]
 
@@ -48,14 +48,46 @@ jobs:
           java-version: '11'
 
       - name: Build with Maven
-        run: mvn -B package --file my-app/pom.xml
+        run: mvn clean package
 
-      - name: Increment version
+      - name: Ensure clean working directory
+        run: git diff --exit-code
+
+      - name: Clean up local modifications
+        run: git clean -fdx
+
+      - name: Extract version
+        id: extract_version
+        run: echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
+
+      - name: Increment version and release
         run: |
-          mvn build-helper:parse-version versions:set \
-            -DnewVersion=\${parsedVersion.nextPatchVersion} \
-            versions:commit
+          mvn buildnumber:create
+          mvn versions:set -DnewVersion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-$(mvn buildnumber:create -DdoUpdate=false -DdoCheck=false -DtimestampFormat=\{0,date,yyyyMMddHHmmss\} -q -DforceStdout)
+          mvn versions:set -DnewVersion=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-SNAPSHOT
+          mvn release:prepare release:perform
         working-directory: my-app
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.extract_version.outputs.VERSION }}
+          release_name: Release v${{ steps.extract_version.outputs.VERSION }}
+          draft: false
+          prerelease: false
+
+      - name: Upload JAR to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: my-app/target/my-app-${{ steps.extract_version.outputs.VERSION }}.jar
+          asset_name: my-app-${{ steps.extract_version.outputs.VERSION }}.jar
+          asset_content_type: application/java-archive
 
   lint:
     runs-on: ubuntu-latest
