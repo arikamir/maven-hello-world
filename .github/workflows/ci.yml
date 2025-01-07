@@ -59,9 +59,9 @@ jobs:
 
       - name: Increment version
         run: |
-          mvn build-helper:parse-version versions:set \
-            -DnewVersion=\${parsedVersion.nextPatchVersion} \
-            versions:commit
+          "mvn build-helper:parse-version versions:set \
+            -DnewVersion=${parsedVersion.nextPatchVersion} \
+            versions:commit"
 
   lint:
     runs-on: ubuntu-latest
