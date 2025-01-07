@@ -44,7 +44,7 @@ jobs:
       - name: Increase patch version
         run: |
           mvn build-helper:parse-version versions:set \
-            -DnewVersion=${parsedVersion.nextPatchVersion} \
+            -DnewVersion=\${parsedVersion.nextPatchVersion} \
             versions:commit
         working-directory: my-app
 
