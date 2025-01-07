@@ -89,7 +89,7 @@ jobs:
 
       - uses: snyk/actions/setup@master
       - name: Snyk Maven
-        uses: snyk/actions/maven@master
+        uses: snyk/actions/maven-3-jdk-11@master
         with:
           args: --sarif-file-output=snyk.sarif --file=my-app/pom.xml
         env:
