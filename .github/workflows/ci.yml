@@ -71,6 +71,7 @@ jobs:
           git add pom.xml
           git commit -m "Increment version to \${{ steps.extract_version.outputs.VERSION }}"
           git push origin main
+        working-directory: my-app
 
       - name: Create GitHub Release
         id: create_release
