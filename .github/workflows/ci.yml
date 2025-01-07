@@ -43,7 +43,7 @@ jobs:
             run: mvn -B package --file my-app/pom.xml
 
           - name: Create artifact
-            uses: actions/upload-artifact@v2
+            uses: actions/upload-artifact@v4
             with:
               name: my-app
               path: my-app/target/*.jar
