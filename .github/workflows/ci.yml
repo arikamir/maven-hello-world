@@ -68,6 +68,7 @@ jobs:
         run: |
           mvn build-helper:parse-version
           NEW_VERSION=$(mvn help:evaluate -Dexpression=parsedVersion.majorVersion -q -DforceStdout).$(mvn help:evaluate -Dexpression=parsedVersion.minorVersion -q -DforceStdout).$(mvn help:evaluate -Dexpression=parsedVersion.nextIncrementalVersion -q -DforceStdout)
+          echo "New version: $NEW_VERSION"
           mvn build-helper:parse-version versions:set \
             -DnewVersion=$NEW_VERSION \
             versions:commit
