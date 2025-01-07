@@ -8,6 +8,12 @@
   <name>my-app</name>
   <url>http://maven.apache.org</url>
 
+  <scm>
+    <connection>scm:git:https://github.com/arikamir/maven-hello-world.git</connection>
+    <developerConnection>scm:git:ssh://github.com/arikamir/maven-hello-world.git</developerConnection>
+    <url>https://github.com/arikamir/maven-hello-world</url>
+  </scm>
+
   <properties>
       <!-- This property will be set by the Maven Dependency plugin -->
       <annotatedJdk>${org.checkerframework:jdk11:jar}</annotatedJdk>
