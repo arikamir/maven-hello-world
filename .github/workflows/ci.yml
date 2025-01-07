@@ -67,7 +67,7 @@ jobs:
       - name: Increment version
         run: |
           mvn build-helper:parse-version versions:set \
-            -DnewVersion=\${parsedVersion.nextPatchVersion} \
+            -DnewVersion=\${parsedVersion.nextMinorVersion} \
             versions:commit
 
       - name: Create GitHub Release
