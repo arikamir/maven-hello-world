@@ -240,7 +240,7 @@
         <version>3.0.0-M1</version>
         <configuration>
           <autoVersionSubmodules>true</autoVersionSubmodules>
-          <releaseVersion>${project.version}-${buildNumber}</releaseVersion>
+          <releaseVersion>${project.version}</releaseVersion>
           <developmentVersion>${project.version}-SNAPSHOT</developmentVersion>
         </configuration>
       </plugin>
