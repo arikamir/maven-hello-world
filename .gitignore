@@ -1,2 +1,4 @@
 .vscode/settings.json
 my-app/target
+.secrets
+.actrc

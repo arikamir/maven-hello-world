@@ -31,7 +31,34 @@ jobs:
             run: |
                 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
                 sudo apt-get install -y nodejs
-     
+
+          - name: Increase patch version
+            run: |
+              mvn build-helper:parse-version versions:set \
+                -DnewVersion=\${parsedVersion.nextPatchVersion} \
+                versions:commit
+            working-directory: my-app
+
           - name: Build with Maven
             run: mvn -B package --file my-app/pom.xml
+
+          - name: Create artifact
+            uses: actions/upload-artifact@v2
+            with:
+              name: my-app
+              path: my-app/target/*.jar
+
+          - name: Extract version
+            id: extract_version
+            run: echo "::set-output name=VERSION::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
+
+          - name: Build Docker image
+            run: |
+              docker build --build-arg JAR_FILE=my-app/target/*.jar -t my-app:${{ steps.extract_version.outputs.VERSION }} .
+              docker tag my-app:${{ steps.extract_version.outputs.VERSION }} my-dockerhub-username/my-app:${{ steps.extract_version.outputs.VERSION }}
+
+          - name: Push Docker image to Docker Hub
+            run: |
+              echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+              docker push my-dockerhub-username/my-app:${{ steps.extract_version.outputs.VERSION }}
 
