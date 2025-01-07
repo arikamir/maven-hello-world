@@ -52,9 +52,9 @@ jobs:
 
       - name: Increment version
         run: |
-          "mvn build-helper:parse-version versions:set \
+          mvn build-helper:parse-version versions:set \
             -DnewVersion=\${parsedVersion.nextPatchVersion} \
-            versions:commit"
+            versions:commit
         working-directory: my-app
 
   lint:
