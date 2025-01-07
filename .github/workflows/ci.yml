@@ -164,6 +164,9 @@ jobs:
       - name: Ensure clean working directory
         run: git diff --exit-code
 
+      - name: Clean up local modifications
+        run: git clean -fdx
+
       - name: Extract version
         id: extract_version
         run: echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
