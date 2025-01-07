@@ -47,21 +47,15 @@ jobs:
           distribution: 'adopt'
           java-version: '11'
 
-      - name: Increase patch version
-        run: |
-          "mvn build-helper:parse-version versions:set \
-            -DnewVersion=${parsedVersion.nextPatchVersion} \
-            versions:commit"
-        working-directory: my-app
-
       - name: Build with Maven
         run: mvn -B package --file my-app/pom.xml
 
       - name: Increment version
         run: |
           "mvn build-helper:parse-version versions:set \
-            -DnewVersion=${parsedVersion.nextPatchVersion} \
+            -DnewVersion=\${parsedVersion.nextPatchVersion} \
             versions:commit"
+        working-directory: my-app
 
   lint:
     runs-on: ubuntu-latest
