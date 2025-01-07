@@ -168,7 +168,7 @@ jobs:
       - name: Increment version and release
         run: |
           mvn buildnumber:create
-          mvn versions:set -DnewVersion=\$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-$(mvn buildnumber:create -DdoUpdate=false -DdoCheck=false -DtimestampFormat={0,date,yyyyMMddHHmmss} -q -DforceStdout)
+          mvn versions:set -DnewVersion=\$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-\$(mvn buildnumber:create -DdoUpdate=false -DdoCheck=false -DtimestampFormat={0,date,yyyyMMddHHmmss} -q -DforceStdout)
           mvn release:prepare release:perform
         working-directory: my-app
 
