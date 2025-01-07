@@ -165,6 +165,12 @@ jobs:
         id: extract_version
         run: echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
 
+      - name: Increment version and release
+        run: |
+          mvn buildnumber:create
+          mvn versions:set -DnewVersion=\$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)-$(mvn buildnumber:create -DdoUpdate=false -DdoCheck=false -DtimestampFormat={0,date,yyyyMMddHHmmss} -q -DforceStdout)
+          mvn release:prepare release:perform
+
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
