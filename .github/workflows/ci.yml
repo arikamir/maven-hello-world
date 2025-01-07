@@ -66,12 +66,26 @@ jobs:
         
       - name: Increment version
         run: |
+          # Fail on any error
+          set -e
+          
+          # Parse the existing version from pom.xml
           mvn build-helper:parse-version
-          NEW_VERSION=$(mvn help:evaluate -Dexpression=parsedVersion.majorVersion -q -DforceStdout).$(mvn help:evaluate -Dexpression=parsedVersion.minorVersion -q -DforceStdout).$(mvn help:evaluate -Dexpression=parsedVersion.nextIncrementalVersion -q -DforceStdout)
+      
+          # Construct a new version string: e.g., 1.2.3
+          NEW_VERSION=$(mvn help:evaluate \
+            -Dexpression=parsedVersion.majorVersion \
+            -q -DforceStdout).$(mvn help:evaluate \
+            -Dexpression=parsedVersion.minorVersion \
+            -q -DforceStdout).$(mvn help:evaluate \
+            -Dexpression=parsedVersion.nextIncrementalVersion \
+            -q -DforceStdout)
+      
           echo "New version: $NEW_VERSION"
-          mvn build-helper:parse-version versions:set \
-            -DnewVersion=$NEW_VERSION \
-            versions:commit
+      
+          # Use the newly generated version
+          mvn versions:set -DnewVersion="${NEW_VERSION}" -DgenerateBackupPoms=false
+          mvn versions:commit
 
       - name: Create GitHub Release
         id: create_release
