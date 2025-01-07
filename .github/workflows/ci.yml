@@ -87,20 +87,13 @@ jobs:
       - name: OWASP Dependency Check
         run: mvn org.owasp:dependency-check-maven:check --file my-app/pom.xml
 
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/maven@master
-        continue-on-error: true # To make sure that SARIF upload gets called
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Snyk Maven
+        uses: snyk/actions/maven@v2
         with:
           args: --sarif-file-output=snyk.sarif --file=my-app/pom.xml
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       
-      - name: Upload result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: snyk.sarif
-        
-
       - name: Snyk Scan
         run: snyk test
 
