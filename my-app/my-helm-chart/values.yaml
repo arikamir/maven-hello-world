@@ -1,0 +1,18 @@
+image:
+  repository: arikamir/my-app
+  tag: latest
+
+replicaCount: 1
+
+service:
+  enabled: true
+  type: ClusterIP
+  port: 80
+
+resources: {}
+  
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

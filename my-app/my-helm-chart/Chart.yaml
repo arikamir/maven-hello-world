@@ -1,0 +1,17 @@
+name: my-helm-chart
+version: 0.1.0
+description: A Helm chart for deploying my-app
+type: application
+apiVersion: v2
+maintainers:
+  - name: Arik Amir
+    email: arikamir1@gmail.com
+keywords:
+  - my-app
+  - helm
+  - kubernetes
+home: https://github.com/arikamir/maven-hello-world/my-helm-chart
+sources:
+  - https://github.com/arikamir/maven-hello-world/my-helm-chart
+icon: https://example.com/icon.png
+dependencies: []
