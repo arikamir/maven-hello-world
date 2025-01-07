@@ -161,6 +161,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Ensure clean working directory
+        run: git diff --exit-code
+
       - name: Extract version
         id: extract_version
         run: echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
