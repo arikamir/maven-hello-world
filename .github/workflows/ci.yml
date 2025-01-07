@@ -88,7 +88,7 @@ jobs:
         run: mvn org.owasp:dependency-check-maven:check --file my-app/pom.xml
 
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
+        uses: snyk/actions/maven@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
