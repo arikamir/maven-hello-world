@@ -69,7 +69,7 @@ jobs:
           mvn build-helper:parse-version
           NEW_VERSION=$(mvn help:evaluate -Dexpression=parsedVersion.majorVersion -q -DforceStdout).$(mvn help:evaluate -Dexpression=parsedVersion.minorVersion -q -DforceStdout).$(mvn help:evaluate -Dexpression=parsedVersion.nextIncrementalVersion -q -DforceStdout)
           mvn build-helper:parse-version versions:set \
-            -DnewVersion=\$NEW_VERSION \
+            -DnewVersion=$NEW_VERSION \
             versions:commit
 
       - name: Create GitHub Release
