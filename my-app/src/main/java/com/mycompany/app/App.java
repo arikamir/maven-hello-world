@@ -11,7 +11,7 @@ public class App
         System.out.println( "Hello Arik!" );
 
         System.out.println("A NullPointerException is a drag...");
-        Object myObject = null;
+        //Object myObject = null;
         /**
          * Checker prevents this from compiling...
          */
