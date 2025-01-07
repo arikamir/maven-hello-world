@@ -36,6 +36,9 @@ jobs:
 
   build-and-release:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: my-app
     needs: setup
     steps:
       - name: Checkout repository
@@ -49,7 +52,7 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean package
-        working-directory: my-app
+        
 
       - name: Ensure clean working directory
         run: git diff --exit-code
@@ -66,12 +69,6 @@ jobs:
           mvn build-helper:parse-version versions:set \
             -DnewVersion=\${parsedVersion.nextPatchVersion} \
             versions:commit
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@github.com'
-          git add pom.xml
-          git commit -m "Increment version to \${{ steps.extract_version.outputs.VERSION }}"
-          git push origin main
-        working-directory: my-app
 
       - name: Create GitHub Release
         id: create_release
