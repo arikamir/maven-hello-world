@@ -3,6 +3,7 @@ FROM maven:3.8.4-openjdk-8 AS build
 WORKDIR /app
 COPY my-app/pom.xml .
 COPY my-app/src ./src
+COPY my-app/checkstyle.xml .
 RUN mvn clean package
 
 # Stage 2: Test the application
