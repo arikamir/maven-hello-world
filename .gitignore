@@ -1,0 +1,8 @@
+.vscode/settings.json
+my-app/target
+.secrets
+.actrc
+ArgoCD/charts/argo-cd/charts/**/charts
+ArgoCD/charts/my-app/charts/**/charts
+clean_repo/**
+

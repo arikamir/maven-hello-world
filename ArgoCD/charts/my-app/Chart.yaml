@@ -1,0 +1,17 @@
+name: my-app
+version: 0.1.0
+description: A Helm chart for deploying my-app
+type: application
+apiVersion: v2
+maintainers:
+  - name: Arik Amir
+    email: arikamir1@gmail.com
+keywords:
+  - my-app
+  - helm
+  - kubernetes
+home: https://github.com/arikamir/maven-hello-world/ArgoCD/charts/my-app
+sources:
+  - https://github.com/arikamir/maven-hello-world/ArgoCD/charts/my-app
+icon: https://example.com/icon.png
+dependencies: []
