@@ -75,6 +75,8 @@ jobs:
           CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           # Increment the version
           NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
+          # git pull
+          git pull
           # Set the new version
           mvn versions:set -DnewVersion=$NEW_VERSION
           # Set the output variable
