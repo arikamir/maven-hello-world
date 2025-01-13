@@ -1,8 +1,15 @@
-FROM openjdk:11-jre-slim AS build
+FROM openjdk:11-jre-slim-bullseye AS build
 ARG TAG=v1.0.0
 ENV TAG=$TAG
 
-RUN apt-get update && apt-get install -y wget coreutils && rm -rf /var/lib/apt/lists/*
+# Update system and install required packages with explicit glibc version
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    wget \
+    coreutils \
+    libc-bin=2.31-13+deb11u7 \
+    libc6=2.31-13+deb11u7 && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -18,7 +25,14 @@ FROM build AS test
     RUN java -jar "my-app.jar" --test
     # (If there is no test step, you can omit this stage.)
 
-FROM openjdk:11-jre-slim
+FROM openjdk:11-jre-slim-bullseye
+
+# Update system and install required glibc version
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    libc-bin=2.31-13+deb11u7 \
+    libc6=2.31-13+deb11u7 && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
 
