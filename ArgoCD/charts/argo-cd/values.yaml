@@ -8,3 +8,13 @@ argo-cd:
   server:
     extraArgs:
       - --insecure
+    service:
+      type: ClusterIP
+      port: 443
+      targetPort: 8080
+
+  # Enable port forwarding
+  portForwarding:
+    enabled: true
+    port: 8080
+    targetPort: 443
